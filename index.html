@@ -1,0 +1,1116 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>The-K 온오프라인 이벤트 · GSAP 모션 확인용</title>
+<link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@500;900&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --black:#000000;
+    --ink:#1a1a1a;
+    --gray-100:#f5f5f5;
+    --gray-400:#b3b3b3;
+    --pretendard:'Pretendard','Noto Sans KR',sans-serif;
+    --noto:'Noto Sans KR',sans-serif;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:#e5e5e7;
+    font-family:var(--pretendard);
+    color:#000;
+    -webkit-font-smoothing:antialiased;
+  }
+  img{display:block;max-width:none;}
+
+  .devlabel{
+    position:fixed;
+    top:12px;
+    left:12px;
+    z-index:999;
+    color:#666;
+    font-family:sans-serif;
+    font-size:12px;
+    background:rgba(255,255,255,.85);
+    padding:4px 10px;
+    border-radius:999px;
+    pointer-events:none;
+  }
+
+  /* ---------- page frame ---------- */
+  .page{
+    width:100%;
+    max-width:390px;
+    margin:0 auto;
+    background:#fff;
+    position:relative;
+  }
+
+  /* ---------- header (117:5328) ---------- */
+  .site-header{
+    position:sticky;
+    top:0;
+    z-index:50;
+    background:#fff;
+    padding:20px 20px 16px;
+    display:flex;
+    flex-direction:column;
+    gap:24px;
+    will-change:transform;
+  }
+  .site-header__row{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+  }
+  .site-header__logo{height:24px;}
+  .site-header__logo img{height:100%;width:auto;filter:invert(1);}
+  .site-header__burger{width:24px;height:24px;}
+  .site-header__tabs{
+    display:flex;
+    gap:4px;
+    width:100%;
+  }
+  .site-header__tab{
+    flex:1 0 0;
+    text-align:center;
+    padding:8px 14px;
+    border:1px solid #000;
+    background:#fff;
+    color:#000;
+    font-weight:500;
+    font-size:14px;
+    letter-spacing:-0.14px;
+    white-space:nowrap;
+    text-decoration:none;
+  }
+  .site-header__tab.active{background:#000;color:#fff;}
+
+  /* ---------- hero ---------- */
+  .hero{
+    position:relative;
+    width:100%;
+    height:440px;
+    overflow:hidden;
+    background:#000;
+  }
+  .hero img{
+    position:absolute;
+    top:50%;left:50%;
+    width:169%;
+    height:100%;
+    transform:translate(-50%,-50%);
+    object-fit:cover;
+  }
+  .hero__gradient{
+    position:absolute;
+    left:0;right:0;bottom:0;
+    height:317px;
+    background:linear-gradient(to bottom, rgba(0,0,0,0) 0%, #000 100%);
+  }
+  .hero__headline{
+    position:absolute;
+    left:24px;
+    top:290px;
+    width:342px;
+    display:flex;
+    flex-direction:column;
+    gap:8px;
+  }
+  .hero__eyebrow{color:var(--gray-400);font-size:10px;font-weight:700;letter-spacing:-0.2px;margin:0;}
+  .hero__title{color:#fff;font-size:40px;font-weight:900;letter-spacing:-0.8px;line-height:42px;margin:0;}
+  .hero__sub{color:var(--gray-400);font-size:12px;font-weight:500;letter-spacing:-0.24px;margin:0;}
+  .hero__back{
+    position:absolute;left:24px;top:24px;z-index:5;
+    width:24px;height:24px;background:none;border:0;padding:0;cursor:pointer;
+  }
+  .hero__back img{width:24px;height:24px;}
+
+  /* ---------- content sections ---------- */
+  .con{background:#fff;padding:20px;}
+  .con-inner{width:100%;max-width:350px;margin:0 auto;display:flex;flex-direction:column;gap:60px;}
+
+  .desc-block{display:flex;flex-direction:column;gap:20px;}
+  .desc-text{font-size:12px;font-weight:500;line-height:1.5;margin:0;}
+  .info-list{display:flex;flex-direction:column;gap:14px;font-size:12px;}
+  .info-row{display:flex;gap:16px;}
+  .info-label{font-weight:700;width:54px;flex-shrink:0;}
+  .info-value{font-weight:500;}
+  .site-link{display:flex;align-items:center;gap:6px;font-weight:900;font-size:12px;}
+  .site-link img{width:6px;height:6px;}
+
+  .section-head{display:flex;align-items:center;gap:8px;margin:0 0 12px;flex-wrap:wrap;}
+  .section-head__text{display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
+  .cta-desktop{display:none;}
+  .cta-mobile-bottom{}
+  .section-title{font-size:24px;font-weight:900;letter-spacing:-0.48px;}
+  .section-meta{display:flex;gap:2px;font-size:12px;font-weight:500;color:#000;}
+
+  .filters{display:flex;gap:6px;margin-bottom:12px;}
+  .filter{
+    padding:4px 8px;
+    border:1px solid #000;
+    background:#fff;
+    font-size:10px;
+    font-weight:500;
+    letter-spacing:-0.1px;
+  }
+  .filter.active{background:#000;color:#fff;}
+
+  .gallery{display:flex;flex-direction:column;gap:6px;}
+  .gallery-wide{
+    width:100%;height:172px;border-radius:10px;overflow:hidden;background:var(--gray-100);position:relative;
+  }
+  .gallery-wide img{width:100%;height:100%;object-fit:cover;position:static;transform:none;}
+  .gallery-row{display:flex;gap:6px;}
+  .gallery-tile{
+    width:172px;height:172px;border-radius:10px;overflow:hidden;background:var(--gray-100);position:relative;flex-shrink:0;
+  }
+  .gallery-tile img{width:100%;height:100%;object-fit:cover;}
+  .gallery-tile.rotate > img{transform:rotate(14deg) scale(1.15);}
+  .tile-badge{
+    position:absolute;right:6px;bottom:6px;
+    width:24px;height:24px;border-radius:999px;
+    background:rgba(0,0,0,.3);
+    display:flex;align-items:center;justify-content:center;
+  }
+  .tile-badge img{width:24px;height:24px;}
+
+  /* phone mockup tiles */
+  .phone-mock{
+    position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
+    width:70px;height:144px;border-radius:12px;background:#111;
+    box-shadow:0 0 0 2px #3a3a3a, 0 0 0 3px #111;
+    overflow:hidden;
+  }
+  .phone-mock img{width:100%;height:100%;object-fit:cover;position:static;transform:none;}
+  .phone-mock .island{
+    position:absolute;top:5px;left:50%;transform:translateX(-50%);
+    width:22px;height:6px;border-radius:999px;background:#000;z-index:2;
+  }
+
+  .cta-btn{
+    width:100%;background:#000;color:#fff;border:0;border-radius:10px;
+    padding:18px 0;display:flex;align-items:center;justify-content:center;gap:10px;
+    font-size:18px;font-weight:500;letter-spacing:-0.18px;cursor:pointer;
+  }
+  .grid-icon{display:grid;grid-template-columns:6px 6px;grid-template-rows:6px 6px;gap:2px;width:14px;height:14px;}
+  .grid-icon span{background:#fff;border-radius:1.5px;}
+
+  .stat-grid{display:flex;flex-direction:column;gap:6px;}
+  .stat-row{display:flex;gap:6px;}
+  .stat-card{flex:1;background:var(--gray-100);border-radius:10px;padding:14px;display:flex;flex-direction:column;gap:12px;}
+  .stat-label{font-size:12px;font-weight:500;margin:0;}
+  .stat-value{font-size:20px;font-weight:700;letter-spacing:-0.4px;margin:0;}
+
+  .detail-contact{display:none;}
+  .process-card{background:var(--gray-100);border-radius:10px;padding:14px;display:flex;flex-direction:column;gap:12px;}
+  .process-steps{position:relative;display:flex;justify-content:space-between;padding:0 4px;}
+  .process-steps__line{position:absolute;top:5px;left:24px;right:24px;height:2px;background:rgba(0,0,0,.1);}
+  .step{display:flex;flex-direction:column;align-items:center;gap:8px;position:relative;z-index:1;width:40px;}
+  .step-dot{width:12px;height:12px;}
+  .step-label{font-size:8px;font-weight:500;text-align:center;line-height:1.3;}
+
+  .next-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:24px;}
+  .next-title{font-family:var(--noto);font-size:24px;font-weight:900;letter-spacing:-1px;text-transform:uppercase;}
+  .next-pill{
+    display:flex;align-items:center;gap:4px;background:var(--gray-100);
+    padding:5px 8px 5px 18px;border-radius:999px;font-size:14px;font-weight:500;letter-spacing:-0.14px;
+  }
+  .next-pill img{width:24px;height:24px;}
+  .next-cta-desktop{display:none;}
+  .next-list{display:flex;flex-direction:column;gap:14px;}
+  .next-card{display:flex;flex-direction:column;gap:14px;cursor:pointer;}
+  .next-thumb{width:100%;height:196px;border-radius:6px;overflow:hidden;background:var(--gray-100);}
+  .next-thumb img{width:100%;height:100%;object-fit:cover;}
+  .next-cat{color:var(--gray-400);font-size:14px;font-weight:500;letter-spacing:-0.28px;margin:0;}
+  .next-name{font-family:var(--noto);font-size:20px;font-weight:900;letter-spacing:-1px;margin:4px 0 0;}
+  .next-section{background:#fff;padding:40px 20px 120px;}
+
+  /* ---------- footer / contact (117:6420) ---------- */
+  .contact-footer{
+    background:#000;color:#fff;padding:40px 20px 20px;display:flex;flex-direction:column;gap:80px;
+  }
+  .talk-row{display:flex;align-items:center;gap:4px;}
+  .talk-title{font-size:36px;font-weight:900;letter-spacing:-0.72px;margin:0;}
+  .talk-arrow{width:50px;height:50px;}
+  .talk-arrow img{width:100%;height:100%;}
+  .talk-sub{display:flex;flex-direction:column;gap:4px;margin-top:2px;}
+  .talk-email{font-size:20px;font-weight:600;margin:0;}
+  .talk-note{font-size:12px;font-weight:400;margin:0;}
+
+  .contact-block{display:flex;flex-direction:column;gap:20px;}
+  .contact-info{display:flex;flex-direction:column;gap:4px;font-size:12px;font-weight:400;color:var(--gray-400);}
+  .contact-info div{display:flex;gap:4px;}
+  .contact-info span:first-child{width:28px;flex-shrink:0;}
+  .npley-wordmark{width:100%;}
+  .npley-wordmark img{width:100%;height:auto;}
+
+  /* ---------- floating contact fab ---------- */
+  .fab{
+    position:fixed;
+    left:50%;
+    bottom:32px;
+    z-index:60;
+    display:flex;align-items:center;gap:4px;
+    background:#000;color:#fff;border:0;
+    padding:10px 17px 10px 24px;border-radius:999px;
+    font-size:18px;font-weight:500;letter-spacing:-0.18px;
+    box-shadow:0 8px 24px rgba(0,0,0,.25);
+    cursor:pointer;
+  }
+  .fab img{width:24px;height:24px;}
+
+  @media (max-width:430px){
+    .fab{bottom:20px;}
+  }
+
+  /* ---------- 117:6558 전체 작업물 보기 뷰어 ---------- */
+  .gallery-viewer{
+    position:fixed;
+    inset:0;
+    z-index:200;
+    background:#000;
+    display:none;
+  }
+  .gallery-viewer__inner{
+    width:100%;
+    max-width:390px;
+    height:100%;
+    margin:0 auto;
+    position:relative;
+  }
+  .viewer-topbar{
+    position:absolute;
+    left:20px;
+    top:40px;
+    width:calc(100% - 40px);
+    max-width:350px;
+    display:flex;
+    align-items:flex-start;
+    gap:71px;
+    z-index:20;
+  }
+  .viewer-back{
+    width:24px;height:24px;flex-shrink:0;
+    background:none;border:0;padding:0;cursor:pointer;
+  }
+  .viewer-back img{width:24px;height:24px;}
+  .viewer-meta{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:20px;
+    width:160px;
+  }
+  .viewer-counter{
+    font-size:18px;
+    font-weight:500;
+    letter-spacing:-1px;
+    color:#fff;
+  }
+  .viewer-counter .total{color:var(--gray-400);}
+  .viewer-filter-pill{
+    display:inline-flex;flex-direction:column;align-items:flex-start;
+    background:var(--ink);
+    padding:5px 8px 5px 18px;border-radius:999px;
+    cursor:pointer;
+    user-select:none;
+  }
+  .viewer-filter-pill.open{border-radius:14px;padding:5px 8px 10px 18px;}
+  .viewer-filter-toggle{display:flex;align-items:center;gap:4px;}
+  .viewer-filter-toggle span{width:48px;color:#fff;font-size:14px;font-weight:500;letter-spacing:-0.14px;}
+  .viewer-filter-toggle img{width:24px;height:24px;flex-shrink:0;transition:transform .15s ease;}
+  .viewer-filter-pill.open .viewer-filter-toggle img{transform:rotate(180deg);}
+  .viewer-filter-options{display:none;flex-direction:column;gap:6px;margin-top:6px;}
+  .viewer-filter-pill.open .viewer-filter-options{display:flex;}
+  .viewer-filter-options span{color:#fff;font-size:14px;font-weight:500;letter-spacing:-0.14px;}
+
+  .viewer-stage-wrap{
+    position:absolute;
+    top:175px;
+    left:50%;
+    transform:translateX(-50%);
+    width:350px;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:16px;
+  }
+  .viewer-stage{
+    width:350px;height:460px;
+    background:var(--ink);
+    border-radius:10px;
+    overflow:hidden;
+    position:relative;
+  }
+  .viewer-phone{
+    position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
+    width:180px;height:371px;border-radius:30px;background:#111;
+    box-shadow:0 0 0 4px #3a3a3a, 0 0 0 6px #111;
+    overflow:hidden;
+  }
+  .viewer-phone img{width:100%;height:100%;object-fit:cover;}
+  .viewer-phone .island{
+    position:absolute;top:10px;left:50%;transform:translateX(-50%);
+    width:49px;height:14px;border-radius:999px;background:#000;z-index:2;
+  }
+  .viewer-badge{
+    position:absolute;right:10px;bottom:10px;
+    width:24px;height:24px;border-radius:999px;
+    background:rgba(0,0,0,.3);
+    display:flex;align-items:center;justify-content:center;
+  }
+  .viewer-badge img{width:24px;height:24px;}
+  .viewer-photo{width:100%;height:100%;object-fit:cover;}
+  .viewer-cutout{
+    position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
+    width:70%;height:70%;display:flex;align-items:center;justify-content:center;
+  }
+  .viewer-cutout img{max-width:100%;max-height:100%;object-fit:contain;}
+  .viewer-thumb{
+    position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
+    width:55%;height:55%;border-radius:8px;overflow:hidden;
+  }
+  .viewer-thumb.rotate{transform:translate(-50%,-50%) rotate(14.1deg);}
+  .viewer-thumb img{width:100%;height:100%;object-fit:cover;}
+
+  .viewer-nav{display:flex;gap:16px;}
+  .viewer-nav-btn{
+    width:42px;height:42px;border-radius:999px;
+    background:#fff;border:0;cursor:pointer;
+    display:flex;align-items:center;justify-content:center;
+  }
+  .viewer-nav-btn img{width:22px;height:22px;}
+  .viewer-nav-btn.disabled{background:var(--ink);cursor:default;}
+  .viewer-nav-btn.prev img{transform:rotate(180deg) scaleY(-1);}
+
+  /* ======================================================
+     170:20346 pc_온오프라인 — 데스크톱 반응형 레이아웃
+     ====================================================== */
+  @media (min-width:1024px){
+    .page{
+      width:1920px;
+      max-width:none;
+      margin:0 auto;
+    }
+
+    .site-header{padding:40px 100px 30px;gap:0;}
+    .site-header__logo{height:30px;}
+    .site-header__burger{width:30px;height:30px;}
+    .site-header__tabs{display:none;}
+
+    .hero{height:640px;}
+    .hero__gradient{height:534px;}
+    .hero__headline{left:100px;top:297px;width:auto;max-width:900px;gap:12px;}
+    .hero__eyebrow{font-size:24px;letter-spacing:-0.48px;}
+    .hero__title{font-size:100px;letter-spacing:-2px;line-height:101px;}
+    .hero__sub{font-size:32px;letter-spacing:-0.64px;}
+    .hero__back{left:100px;top:40px;width:40px;height:40px;}
+    .hero__back img{width:40px;height:40px;}
+
+    .con{padding:40px 100px 80px;}
+    .con-inner{
+      max-width:1720px;
+      display:grid;
+      grid-template-columns:980px 700px;
+      column-gap:40px;
+      row-gap:0;
+      grid-template-areas:
+        "desc desc"
+        "glance detail"
+        "assets detail";
+      align-items:start;
+    }
+    .desc-block{grid-area:desc;display:flex;flex-direction:column;gap:30px;margin-bottom:60px;}
+    .desc-text{font-size:20px;}
+    .info-list{gap:29px;font-size:18px;}
+    .info-row{gap:0;}
+    .info-label{font-weight:700;font-size:18px;width:auto;}
+    .info-value{font-weight:500;font-size:18px;margin-left:59px;}
+    .site-link{font-size:18px;}
+    .site-link img{width:8px;height:8px;}
+
+    #glance{grid-area:glance;margin-bottom:76px;}
+    #assets{grid-area:assets;}
+
+    .section-head{margin:0 0 12px;justify-content:space-between;}
+    .section-head__text{gap:8px;}
+    .section-title{font-size:40px;letter-spacing:-0.8px;}
+    .section-meta{font-size:18px;}
+    .section-meta span:nth-child(2){font-size:14px;}
+    .cta-desktop{display:flex;margin-left:auto;}
+    .cta-mobile-bottom{display:none;}
+
+    .filters{gap:6px;margin-bottom:20px;}
+    .filter{padding:6px 10px;font-size:16px;letter-spacing:-0.16px;}
+
+    .gallery{display:grid;grid-template-columns:1fr 1fr;gap:20px;}
+    .gallery-row{display:contents;}
+    .gallery-wide{grid-column:1/-1;width:auto;height:480px;border-radius:20px;}
+    .gallery-tile{width:auto;height:480px;border-radius:20px;}
+    .gallery-tile.rotate > img{transform:rotate(14deg) scale(1.2);}
+    .tile-badge{width:60px;height:60px;right:30px;bottom:30px;}
+    .tile-badge img{width:60px;height:60px;}
+    .phone-mock{width:196px;height:404px;border-radius:28px;box-shadow:0 0 0 5px #3a3a3a,0 0 0 8px #111;}
+    .phone-mock .island{width:62px;height:17px;top:14px;}
+
+    .cta-btn{width:auto;padding:18px 26px;font-size:18px;letter-spacing:-0.18px;}
+
+    #detail{
+      grid-area:detail;
+      position:sticky;
+      top:100px;
+      align-self:start;
+      background:#fff;
+      border-radius:20px;
+      padding:40px;
+      box-shadow:7px 8px 36px rgba(0,0,0,.08);
+      display:flex;
+      flex-direction:column;
+      gap:20px;
+    }
+    #detail .section-title{margin:0 !important;font-size:30px;letter-spacing:-0.6px;}
+    .stat-grid{gap:12px;}
+    .stat-row{gap:12px;}
+    .stat-card{padding:30px;border-radius:20px;gap:30px;}
+    .stat-label{font-size:20px;}
+    .stat-value{font-size:32px;letter-spacing:-0.64px;}
+    .process-card{padding:30px;border-radius:20px;}
+    .process-card .stat-label{font-size:20px;}
+    .process-steps{justify-content:space-between;padding:0;}
+    .step{width:auto;gap:8px;}
+    .step-label{font-size:14px;}
+
+    .detail-contact{
+      display:flex;align-items:center;justify-content:space-between;
+      background:#000;color:#fff;border-radius:999px;
+      padding:16px 17px 16px 24px;cursor:pointer;
+    }
+    .detail-contact span{font-size:32px;font-weight:500;letter-spacing:-0.32px;}
+    .detail-contact img{width:40px;height:40px;}
+
+    .fab{display:none;}
+
+    .next-section{padding:80px 100px;}
+    .next-head{flex-wrap:wrap;gap:0;margin-bottom:40px;}
+    .next-title{font-size:40px;letter-spacing:-0.8px;order:1;}
+    .next-cta-bottom{display:none;}
+    .next-cta-desktop{display:flex;order:2;}
+    .next-head::after{content:'';display:block;flex-basis:100%;width:0;order:3;}
+    .next-pill{order:4;flex:0 0 auto;width:auto;margin-top:20px;padding:8px 10px 8px 20px;font-size:16px;letter-spacing:-0.16px;}
+    .next-pill img{width:26px;height:26px;}
+    .next-list{display:flex;flex-direction:row;gap:20px;}
+    .next-card{flex:1;gap:20px;}
+    .next-thumb{height:480px;border-radius:20px;}
+    .next-cat{font-size:24px;letter-spacing:-0.48px;}
+    .next-name{font-size:32px;letter-spacing:-1px;margin-top:0;}
+
+    .contact-footer{
+      display:grid;grid-template-columns:1fr auto;
+      column-gap:40px;row-gap:160px;
+      padding:80px 100px 40px;
+    }
+    .talk-wrap{grid-column:1;grid-row:1;}
+    .talk-title{font-size:60px;letter-spacing:-1.2px;}
+    .talk-arrow{width:70px;height:70px;}
+    .talk-email{font-size:32px;}
+    .talk-note{font-size:20px;}
+    .contact-block{display:contents;}
+    .contact-info{grid-column:2;grid-row:1;align-self:start;font-size:20px;gap:6px;}
+    .contact-info span:first-child{width:42px;}
+    .npley-wordmark{grid-column:1/-1;grid-row:2;max-width:1720px;}
+
+    /* 170:19290 전체 작업물 보기 뷰어 — PC 레이아웃 */
+    .gallery-viewer__inner{max-width:1920px;}
+    .viewer-topbar{
+      position:relative;
+      left:100px;
+      top:60px;
+      width:calc(100% - 200px);
+      max-width:1720px;
+      gap:0;
+    }
+    .viewer-meta{display:contents;}
+    .viewer-counter{
+      position:absolute;left:50%;top:7px;transform:translateX(-50%);
+      font-size:30px;letter-spacing:-1px;
+    }
+    .viewer-filter-pill{position:absolute;right:0;top:0;padding:10px 10px 10px 20px;}
+    .viewer-filter-toggle span{font-size:18px;}
+    .viewer-filter-toggle img{width:30px;height:30px;}
+    .viewer-filter-options span{font-size:18px;}
+
+    .viewer-stage-wrap{top:150px;width:1070px;flex-direction:row;gap:40px;}
+    .viewer-stage{width:830px;height:830px;border-radius:20px;order:2;}
+    .viewer-nav{display:contents;}
+    .viewer-nav-btn{width:80px;height:80px;}
+    .viewer-nav-btn.prev{order:1;}
+    .viewer-nav-btn.next{order:3;}
+    .viewer-nav-btn img{width:42px;height:42px;}
+
+    .viewer-phone{width:340px;height:701px;border-radius:57px;box-shadow:0 0 0 8px #3a3a3a,0 0 0 12px #111;}
+    .viewer-phone .island{width:93px;height:26px;top:19px;}
+    .viewer-badge{width:60px;height:60px;right:20px;bottom:20px;}
+    .viewer-badge img{width:60px;height:60px;}
+  }
+</style>
+</head>
+<body>
+  <div class="devlabel">GSAP 모션 확인용 · The-K 온오프라인 이벤트 (Figma sync)</div>
+
+  <div class="page" id="page">
+
+    <header class="site-header" id="siteHeader">
+      <div class="site-header__row">
+        <div class="site-header__logo"><img src="./assets/img/npley-logo-header.png" alt="NPLEY"/></div>
+        <div class="site-header__burger"><img src="./assets/icon/icon-dehaze.svg" alt="메뉴" /></div>
+      </div>
+      <nav class="site-header__tabs">
+        <a class="site-header__tab active" href="#intro">인트로</a>
+        <a class="site-header__tab" href="#glance">한눈에 보기</a>
+        <a class="site-header__tab" href="#detail">상세 정보</a>
+        <a class="site-header__tab" href="#assets">제작 에셋</a>
+      </nav>
+    </header>
+
+    <section class="hero" id="intro">
+      <img src="./assets/img/hero-autumn-event.png" alt="가을 이벤트를 담은 스마트폰 화면" />
+      <button class="hero__back" id="heroBack"><img src="./assets/icon/arrow-back-ios.svg" alt="뒤로가기"/></button>
+      <div class="hero__gradient"></div>
+      <div class="hero__headline">
+        <p class="hero__eyebrow">이벤트</p>
+        <h1 class="hero__title">The-K<br/>온오프라인 이벤트</h1>
+        <p class="hero__sub">ON &amp; OFFLINE EVENT PROMOTION</p>
+      </div>
+    </section>
+
+    <section class="con">
+      <div class="con-inner">
+
+        <div class="desc-block">
+          <p class="desc-text">프로젝트 관련 설명 최대 4줄 작성 가능합니다. 프로젝트 관련 설명 최대 4줄 작성 가능합니다. 프로젝트 관련 설명 최대 4줄 작성 가능합니다. 프로젝트 관련 설명 최대 4줄 작성 가능합니다. 프로젝트 관련 설명 최대 4줄 작성 가능합니다. 프로젝트 관련 설명 최대 4줄 작성 가능합니다.</p>
+          <div class="info-list">
+            <div class="info-row"><span class="info-label">고객사</span><span class="info-value">The-K</span></div>
+            <div class="info-row"><span class="info-label">포지션</span><span class="info-value">온오프라인 이벤트 프로모션</span></div>
+            <div class="info-row"><span class="info-label">런칭일</span><span class="info-value">2026년 00월</span></div>
+          </div>
+          <div class="site-link">www.관련 사이트.kr <img src="./assets/icon/icon-link.svg" alt=""/></div>
+        </div>
+
+        <div id="glance">
+          <div class="section-head">
+            <div class="section-head__text">
+              <span class="section-title">한눈에 보기</span>
+              <span class="section-meta"><span>사진 3</span><span>·</span><span>영상 10</span></span>
+            </div>
+            <button class="cta-btn cta-desktop" id="viewAllWorkBtnDesktop">
+              <span class="grid-icon"><span></span><span></span><span></span><span></span></span>
+              View All Work
+            </button>
+          </div>
+          <div class="filters" id="glanceFilters">
+            <span class="filter active" data-filter="all">전체</span>
+            <span class="filter" data-filter="online">온라인</span>
+            <span class="filter" data-filter="offline">오프라인</span>
+          </div>
+
+          <!-- 143:29510 한눈에 보기_전체 -->
+          <div class="gallery gallery-view" data-view="all">
+            <div class="gallery-wide"><img src="./assets/img/poster-concrete-wall.png" alt="콘크리트 벽에 붙이는 이벤트 포스터"/></div>
+            <div class="gallery-row">
+              <div class="gallery-tile">
+                <div class="phone-mock"><div class="island"></div><img src="./assets/img/phone-wallpaper-1.png" alt=""/></div>
+                <div class="tile-badge"><img src="./assets/icon/arrow-right-circle.svg" alt=""/></div>
+              </div>
+              <div class="gallery-tile">
+                <div class="phone-mock"><div class="island"></div><img src="./assets/img/phone-wallpaper-2.png" alt=""/></div>
+                <div class="tile-badge"><img src="./assets/icon/arrow-right-circle.svg" alt=""/></div>
+              </div>
+            </div>
+            <div class="gallery-row">
+              <div class="gallery-tile"><img src="./assets/img/hero-autumn-event.png" alt="동료와 함께하는 봄빛 혜택 이벤트"/></div>
+              <div class="gallery-tile"><img src="./assets/img/iced-coffee.png" alt="햇살 아래 스누비 아이스커피"/></div>
+            </div>
+          </div>
+
+          <!-- 143:29690 한눈에 보기_온라인 -->
+          <div class="gallery gallery-view" data-view="online" style="display:none;">
+            <div class="gallery-wide"><img src="./assets/img/hero-autumn-event.png" alt="동료와 함께하는 봄빛 혜택 이벤트"/></div>
+            <div class="gallery-row">
+              <div class="gallery-tile">
+                <div class="phone-mock"><div class="island"></div><img src="./assets/img/phone-wallpaper-1.png" alt=""/></div>
+                <div class="tile-badge"><img src="./assets/icon/arrow-right-circle.svg" alt=""/></div>
+              </div>
+              <div class="gallery-tile">
+                <div class="phone-mock"><div class="island"></div><img src="./assets/img/phone-wallpaper-2.png" alt=""/></div>
+                <div class="tile-badge"><img src="./assets/icon/arrow-right-circle.svg" alt=""/></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 143:29872 한눈에 보기_오프라인 -->
+          <div class="gallery gallery-view" data-view="offline" style="display:none;">
+            <div class="gallery-wide"><img src="./assets/img/poster-concrete-wall.png" alt="콘크리트 벽에 붙이는 이벤트 포스터"/></div>
+            <div class="gallery-wide"><img src="./assets/img/iced-coffee.png" alt="햇살 아래 스누비 아이스커피"/></div>
+          </div>
+
+          <button class="cta-btn cta-mobile-bottom" id="viewAllWorkBtn" style="margin-top:12px;">
+            <span class="grid-icon"><span></span><span></span><span></span><span></span></span>
+            View All Work
+          </button>
+        </div>
+
+        <div id="detail">
+          <h2 class="section-title" style="display:block;margin:0 0 12px;">상세 정보</h2>
+          <div class="stat-grid">
+            <div class="stat-row">
+              <div class="stat-card"><p class="stat-label">제작 기간</p><p class="stat-value">26.01 ~ 진행중</p></div>
+              <div class="stat-card"><p class="stat-label">디자인 컨셉</p><p class="stat-value">시즌, 기관 이벤트</p></div>
+            </div>
+            <div class="stat-row">
+              <div class="stat-card"><p class="stat-label">제작 에셋 수</p><p class="stat-value">16+</p></div>
+              <div class="stat-card"><p class="stat-label">제작 작업물 수</p><p class="stat-value">10+</p></div>
+            </div>
+            <div class="process-card">
+              <p class="stat-label" style="margin:0;">제작 프로세스</p>
+              <div class="process-steps">
+                <div class="process-steps__line"></div>
+                <div class="step"><img class="step-dot" src="./assets/icon/ellipse-step.svg" alt=""/><div class="step-label">이벤트 기획<br/>(약 0일)</div></div>
+                <div class="step"><img class="step-dot" src="./assets/icon/ellipse-step.svg" alt=""/><div class="step-label">컨셉 테스트<br/>(약 0일)</div></div>
+                <div class="step"><img class="step-dot" src="./assets/icon/ellipse-step.svg" alt=""/><div class="step-label">디자인 진행<br/>(약 0일)</div></div>
+                <div class="step"><img class="step-dot" src="./assets/icon/ellipse-step.svg" alt=""/><div class="step-label">개발 및 배포<br/>(약 0일)</div></div>
+              </div>
+            </div>
+          </div>
+          <div class="detail-contact" id="detailContact">
+            <span>Contact</span>
+            <img src="./assets/icon/arrow-right-alt-small.svg" alt=""/>
+          </div>
+        </div>
+
+        <div id="assets">
+          <div class="section-head">
+            <div class="section-head__text">
+              <span class="section-title">제작 에셋</span>
+              <span class="section-meta"><span>총 16</span></span>
+            </div>
+            <button class="cta-btn cta-desktop" id="viewAllAssetBtnDesktop">
+              <span class="grid-icon"><span></span><span></span><span></span><span></span></span>
+              View All Asset
+            </button>
+          </div>
+          <div class="filters" id="assetFilters">
+            <span class="filter active" data-filter="all">전체</span>
+            <span class="filter" data-filter="character">캐릭터</span>
+            <span class="filter" data-filter="background">배경</span>
+            <span class="filter" data-filter="icon">아이콘</span>
+          </div>
+
+          <!-- 143:30095 제작에셋_전체 -->
+          <div class="gallery gallery-view" data-view="all">
+            <div class="gallery-wide"><img src="./assets/img/cherry-blossom-picnic.png" alt="벚꽃 아래 쿠폰 피크닉 풍경"/></div>
+            <div class="gallery-row">
+              <div class="gallery-tile"><img src="./assets/img/duck-character-hairpin.png" alt="벚꽃 머리핀 아기 오리 캐릭터"/></div>
+              <div class="gallery-tile rotate">
+                <img src="./assets/img/chatgpt-image.png" alt=""/>
+                <div class="tile-badge"><img src="./assets/icon/arrow-right-circle.svg" alt=""/></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 143:30060 제작에셋_캐릭터 -->
+          <div class="gallery gallery-view" data-view="character" style="display:none;">
+            <div class="gallery-row">
+              <div class="gallery-tile"><img src="./assets/img/duck-character-hairpin.png" alt="벚꽃 머리핀 아기 오리 캐릭터"/></div>
+              <div class="gallery-tile"><img src="./assets/img/duck-sunglasses.png" alt="노란 선글라스를 쓴 귀여운 오리 캐릭터"/></div>
+            </div>
+            <div class="gallery-row">
+              <div class="gallery-tile"><img src="./assets/img/duck-trenchcoat.png" alt="트렌치코트를 입은 아기 오리 마스코트"/></div>
+              <div class="gallery-tile"><img src="./assets/img/duck-plush.png" alt="하늘색 목도리 아기 오리 인형"/></div>
+            </div>
+          </div>
+
+          <!-- 143:30130 제작에셋_배경 -->
+          <div class="gallery gallery-view" data-view="background" style="display:none;">
+            <div class="gallery-wide"><img src="./assets/img/cherry-blossom-picnic.png" alt="벚꽃 아래 쿠폰 피크닉 풍경"/></div>
+            <div class="gallery-row">
+              <div class="gallery-tile"><img src="./assets/img/beach-props-summer.png" alt="햇살 가득한 여름 해변 소품들"/></div>
+              <div class="gallery-tile"><img src="./assets/img/autumn-forest-swing.png" alt="가을 숲속 빈 나무 그네"/></div>
+            </div>
+          </div>
+
+          <!-- 143:30184 제작에셋_아이콘 -->
+          <div class="gallery gallery-view" data-view="icon" style="display:none;">
+            <div class="gallery-row">
+              <div class="gallery-tile">
+                <img src="./assets/img/asset-icon-1.png" alt=""/>
+                <div class="tile-badge"><img src="./assets/icon/arrow-right-circle.svg" alt=""/></div>
+              </div>
+              <div class="gallery-tile">
+                <img src="./assets/img/asset-icon-2.png" alt=""/>
+                <div class="tile-badge"><img src="./assets/icon/arrow-right-circle.svg" alt=""/></div>
+              </div>
+            </div>
+            <div class="gallery-row">
+              <div class="gallery-tile rotate">
+                <img src="./assets/img/chatgpt-image.png" alt=""/>
+                <div class="tile-badge"><img src="./assets/icon/arrow-right-circle.svg" alt=""/></div>
+              </div>
+              <div class="gallery-tile">
+                <img src="./assets/img/megaphone-3d.png" alt="노란색 3D 메가폰 렌더링"/>
+                <div class="tile-badge"><img src="./assets/icon/arrow-right-circle.svg" alt=""/></div>
+              </div>
+            </div>
+          </div>
+
+          <button class="cta-btn cta-mobile-bottom" id="viewAllAssetBtn" style="margin-top:12px;">
+            <span class="grid-icon"><span></span><span></span><span></span><span></span></span>
+            View All Asset
+          </button>
+        </div>
+
+      </div>
+    </section>
+
+    <section class="next-section">
+      <div class="next-head">
+        <span class="next-title">NEXT</span>
+        <button class="cta-btn next-cta-desktop">
+          <span class="grid-icon"><span></span><span></span><span></span><span></span></span>
+          View All Project
+        </button>
+        <span class="next-pill">Show all projects <img src="./assets/icon/arrow-drop-down.svg" alt=""/></span>
+      </div>
+      <div class="next-list">
+        <div class="next-card" id="nextToVideoBtn">
+          <div class="next-thumb"><img src="./assets/img/next-branding-video.png" alt=""/></div>
+          <div><p class="next-cat">영상</p><p class="next-name">The-K 브랜딩 영상 제작</p></div>
+        </div>
+        <div class="next-card">
+          <div class="next-thumb"><img src="./assets/img/next-microsite.png" alt=""/></div>
+          <div><p class="next-cat">금융·보험</p><p class="next-name">The-K 마이크로 사이트 제작</p></div>
+        </div>
+        <button class="cta-btn next-cta-bottom" style="margin-top:10px;">View All Project</button>
+      </div>
+    </section>
+
+    <footer class="contact-footer" id="contactFooter">
+      <div class="talk-wrap">
+        <div class="talk-row">
+          <p class="talk-title">Let's Talk</p>
+          <div class="talk-arrow"><img src="./assets/icon/arrow-right-alt-big.svg" alt=""/></div>
+        </div>
+        <div class="talk-sub">
+          <p class="talk-email">hi@npley.com</p>
+          <p class="talk-note">빠른 상담을 위해 프로젝트명, 기간, 예산을 알려주세요.</p>
+        </div>
+      </div>
+      <div class="contact-block">
+        <div class="contact-info">
+          <div><span>Call</span><span>02 2088 1551</span></div>
+          <div><span>Fax</span><span>070 8228 1551</span></div>
+          <div><span>Com</span><span>서울시 서초구 사임당로 64, 교대벤처타워 6층 604호</span></div>
+        </div>
+        <div class="npley-wordmark"><img src="./assets/img/npley-logo-footer.png" alt="NPLEY"/></div>
+      </div>
+    </footer>
+
+  </div>
+
+  <div class="gallery-viewer" id="galleryViewer">
+    <div class="gallery-viewer__inner">
+      <div class="viewer-topbar">
+        <button class="viewer-back" id="viewerBack"><img src="./assets/icon/arrow-back-ios.svg" alt="닫기"/></button>
+        <div class="viewer-meta">
+          <div class="viewer-counter"><span id="viewerCurrent">1</span> / <span class="total" id="viewerTotal">12</span></div>
+          <div class="viewer-filter-pill" id="viewerFilterPill">
+            <div class="viewer-filter-toggle">
+              <span id="viewerFilterLabel">전체</span>
+              <img src="./assets/icon/arrow-drop-down-white.svg" alt=""/>
+            </div>
+            <div class="viewer-filter-options" id="viewerFilterOptions"></div>
+          </div>
+        </div>
+      </div>
+      <div class="viewer-stage-wrap">
+        <div class="viewer-stage" id="viewerStage"></div>
+        <div class="viewer-nav">
+          <button class="viewer-nav-btn prev" id="viewerPrev"><img src="./assets/icon/arrow-forward-ios.svg" alt="이전"/></button>
+          <button class="viewer-nav-btn next" id="viewerNext"><img src="./assets/icon/arrow-forward-ios.svg" alt="다음"/></button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <button class="fab" id="fab">
+    Contact <img src="./assets/icon/arrow-right-alt-small.svg" alt="" />
+  </button>
+
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+  <script>
+    gsap.registerPlugin(ScrollTrigger);
+
+    // 170:20346 PC 디자인(1920 고정폭)을 노트북처럼 더 좁은 화면에도 비율 그대로 축소해서 보여줌
+    const pageEl = document.getElementById('page');
+    function updatePcScale() {
+      const scale = window.innerWidth >= 1024 ? Math.min(1, window.innerWidth / 1920) : '';
+      pageEl.style.zoom = scale;
+      const viewerEl = document.getElementById('galleryViewer');
+      if (viewerEl) viewerEl.style.zoom = scale;
+    }
+    updatePcScale();
+    window.addEventListener('resize', updatePcScale);
+
+    // 141:4733 상단 탭 메뉴 — 클릭 시 해당 영역으로 스무스 스크롤 + 활성 탭 전환
+    const header = document.getElementById('siteHeader');
+    const tabs = Array.from(document.querySelectorAll('.site-header__tab'));
+
+    function setActiveTab(id) {
+      tabs.forEach((t) => t.classList.toggle('active', t.getAttribute('href') === '#' + id));
+    }
+
+    tabs.forEach((tab) => {
+      tab.addEventListener('click', (e) => {
+        e.preventDefault();
+        const id = tab.getAttribute('href').slice(1);
+        const target = document.getElementById(id);
+        if (!target) return;
+        setActiveTab(id);
+        gsap.to(header, { y: 0, duration: 0.2, ease: 'power2.out' });
+        const top = target.getBoundingClientRect().top + window.scrollY - header.offsetHeight - 12;
+        window.scrollTo({ top: Math.max(0, top), behavior: 'smooth' });
+      });
+    });
+
+    // 143:29510 / 143:29690 / 143:29872 한눈에 보기 필터 — 전체/온라인/오프라인 갤러리 전환
+    const glanceFilterBtns = document.querySelectorAll('#glanceFilters .filter');
+    const glanceViews = document.querySelectorAll('#glance .gallery-view');
+    glanceFilterBtns.forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const key = btn.dataset.filter;
+        glanceFilterBtns.forEach((b) => b.classList.toggle('active', b === btn));
+        glanceViews.forEach((view) => {
+          if (view.dataset.view === key) {
+            view.style.display = 'flex';
+            gsap.fromTo(view, { opacity: 0, y: 6 }, { opacity: 1, y: 0, duration: 0.35, ease: 'power2.out' });
+          } else {
+            view.style.display = 'none';
+          }
+        });
+      });
+    });
+
+    // 143:30095 / 143:30060 / 143:30130 / 143:30184 제작 에셋 필터 — 전체/캐릭터/배경/아이콘 갤러리 전환
+    const assetFilterBtns = document.querySelectorAll('#assetFilters .filter');
+    const assetViews = document.querySelectorAll('#assets .gallery-view');
+    assetFilterBtns.forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const key = btn.dataset.filter;
+        assetFilterBtns.forEach((b) => b.classList.toggle('active', b === btn));
+        assetViews.forEach((view) => {
+          if (view.dataset.view === key) {
+            view.style.display = 'flex';
+            gsap.fromTo(view, { opacity: 0, y: 6 }, { opacity: 1, y: 0, duration: 0.35, ease: 'power2.out' });
+          } else {
+            view.style.display = 'none';
+          }
+        });
+      });
+    });
+
+    // 117:6558 ~ 141:7864 전체 작업물 보기 뷰어 — 12장 슬라이드 + 이전/다음 내비게이션
+    const WORK_SLIDES = [
+      { type: 'phone', img: './assets/img/event-wallpaper-spring-cherry-blossom.png' },
+      { type: 'phone', img: './assets/img/event-wallpaper-summer-beach.png' },
+      { type: 'phone', img: './assets/img/phone-wallpaper-1.png' },
+      { type: 'phone', img: './assets/img/event-wallpaper-winter-snowman.png' },
+      { type: 'phone', img: './assets/img/event-wallpaper-comeback-disco.png' },
+      { type: 'phone', img: './assets/img/event-wallpaper-referral-pink.png' },
+      { type: 'phone', img: './assets/img/event-wallpaper-referral-green.png' },
+      { type: 'phone', img: './assets/img/event-wallpaper-oxquiz-autumn.png' },
+      { type: 'phone', img: './assets/img/phone-wallpaper-2.png' },
+      { type: 'photo', img: './assets/img/hero-autumn-event.png', scale: 1.15 },
+      { type: 'photo', img: './assets/img/iced-coffee.png', scale: 1.15 },
+      { type: 'photo', img: './assets/img/poster-concrete-wall.png', scale: 1.15, position: '42% center' },
+    ];
+
+    // 141:4555 ~ 141:7439 제작 에셋 전체보기 뷰어 — 16장 슬라이드 + 이전/다음 내비게이션
+    const ASSET_SLIDES = [
+      { type: 'cutout', img: './assets/img/duck-character-hairpin.png' },
+      { type: 'cutout', img: './assets/img/duck-sunglasses.png' },
+      { type: 'cutout', img: './assets/img/duck-trenchcoat.png' },
+      { type: 'cutout', img: './assets/img/duck-plush.png' },
+      { type: 'cutout', img: './assets/img/duck-hoodie-cap.png' },
+      { type: 'cutout', img: './assets/img/duck-purple-overalls.png' },
+      { type: 'cutout', img: './assets/img/duck-green-vest.png' },
+      { type: 'photo', img: './assets/img/cherry-blossom-picnic.png' },
+      { type: 'photo', img: './assets/img/beach-props-summer.png' },
+      { type: 'photo', img: './assets/img/autumn-forest-swing.png' },
+      { type: 'photo', img: './assets/img/winter-snowfield-scene.png' },
+      { type: 'photo', img: './assets/img/concert-stage-lights.png' },
+      { type: 'thumb', img: './assets/img/asset-icon-1.png' },
+      { type: 'thumb', img: './assets/img/asset-icon-2.png' },
+      { type: 'thumb', img: './assets/img/chatgpt-image.png', rotate: true },
+      { type: 'thumb', img: './assets/img/megaphone-3d.png' },
+    ];
+
+    const WORK_CATEGORIES = ['전체', '온라인', '오프라인'];
+    const ASSET_CATEGORIES = ['전체', '캐릭터', '배경', '아이콘'];
+
+    const viewer = document.getElementById('galleryViewer');
+    const viewerStage = document.getElementById('viewerStage');
+    const viewerCurrent = document.getElementById('viewerCurrent');
+    const viewerTotal = document.getElementById('viewerTotal');
+    const viewerPrev = document.getElementById('viewerPrev');
+    const viewerNext = document.getElementById('viewerNext');
+    const viewerFilterPill = document.getElementById('viewerFilterPill');
+    const viewerFilterLabel = document.getElementById('viewerFilterLabel');
+    const viewerFilterOptions = document.getElementById('viewerFilterOptions');
+    let viewerSlides = WORK_SLIDES;
+    let viewerIndex = 0;
+
+    // 140:3597 NEXT — The-K 브랜딩 영상 제작 카드 클릭 시 영상 포트폴리오로 이동
+    document.getElementById('nextToVideoBtn').addEventListener('click', () => {
+      window.location.href = './video.html';
+    });
+
+    // 170:16923 인트로 상단 뒤로가기 버튼
+    document.getElementById('heroBack').addEventListener('click', () => {
+      window.history.back();
+    });
+
+    // 141:7874 / 144:30967 카테고리 선택_off·on — 뷰어 상단 필터 드롭다운
+    function setViewerCategories(categories) {
+      viewerFilterPill.classList.remove('open');
+      viewerFilterLabel.textContent = categories[0];
+      viewerFilterOptions.innerHTML = categories
+        .slice(1)
+        .map((c) => `<span data-cat="${c}">${c}</span>`)
+        .join('');
+    }
+
+    viewerFilterPill.addEventListener('click', (e) => {
+      e.stopPropagation();
+      viewerFilterPill.classList.toggle('open');
+    });
+    viewerFilterOptions.addEventListener('click', (e) => {
+      if (e.target.dataset.cat) {
+        viewerFilterLabel.textContent = e.target.dataset.cat;
+        viewerFilterPill.classList.remove('open');
+      }
+    });
+    document.addEventListener('click', () => viewerFilterPill.classList.remove('open'));
+
+    function viewerSlideMarkup(slide) {
+      if (slide.type === 'phone') {
+        return `
+          <div class="viewer-phone"><div class="island"></div><img src="${slide.img}" alt=""/></div>
+          <div class="viewer-badge"><img src="./assets/icon/arrow-right-circle.svg" alt=""/></div>
+        `;
+      }
+      if (slide.type === 'cutout') {
+        return `<div class="viewer-cutout"><img src="${slide.img}" alt=""/></div>`;
+      }
+      if (slide.type === 'thumb') {
+        return `
+          <div class="viewer-thumb${slide.rotate ? ' rotate' : ''}"><img src="${slide.img}" alt=""/></div>
+          <div class="viewer-badge"><img src="./assets/icon/arrow-right-circle.svg" alt=""/></div>
+        `;
+      }
+      const style = `object-position:${slide.position || 'center'};${slide.scale ? `transform:scale(${slide.scale});` : ''}`;
+      return `<img class="viewer-photo" src="${slide.img}" alt="" style="${style}"/>`;
+    }
+
+    function renderViewer(index, animate) {
+      viewerIndex = index;
+      const slide = viewerSlides[index];
+      viewerCurrent.textContent = index + 1;
+
+      const apply = () => { viewerStage.innerHTML = viewerSlideMarkup(slide); };
+      if (animate) {
+        gsap.to(viewerStage, { opacity: 0, duration: 0.15, onComplete: () => {
+          apply();
+          gsap.fromTo(viewerStage, { opacity: 0 }, { opacity: 1, duration: 0.2 });
+        }});
+      } else {
+        apply();
+      }
+
+      const isFirst = index === 0;
+      const isLast = index === viewerSlides.length - 1;
+      viewerPrev.classList.toggle('disabled', isFirst);
+      viewerPrev.querySelector('img').src = isFirst ? './assets/icon/arrow-forward-ios-white.svg' : './assets/icon/arrow-forward-ios.svg';
+      viewerNext.classList.toggle('disabled', isLast);
+      viewerNext.querySelector('img').src = isLast ? './assets/icon/arrow-forward-ios-white.svg' : './assets/icon/arrow-forward-ios.svg';
+    }
+
+    function openViewer(slides) {
+      viewerSlides = slides;
+      viewerTotal.textContent = slides.length;
+      setViewerCategories(slides === ASSET_SLIDES ? ASSET_CATEGORIES : WORK_CATEGORIES);
+      renderViewer(0, false);
+      viewer.style.display = 'block';
+      document.body.style.overflow = 'hidden';
+      gsap.fromTo(viewer, { opacity: 0 }, { opacity: 1, duration: 0.3, ease: 'power2.out' });
+    }
+
+    function closeViewer() {
+      gsap.to(viewer, { opacity: 0, duration: 0.25, ease: 'power2.in', onComplete: () => {
+        viewer.style.display = 'none';
+        document.body.style.overflow = '';
+      }});
+    }
+
+    document.getElementById('viewAllWorkBtn').addEventListener('click', () => openViewer(WORK_SLIDES));
+    document.getElementById('viewAllAssetBtn').addEventListener('click', () => openViewer(ASSET_SLIDES));
+    document.getElementById('viewAllWorkBtnDesktop').addEventListener('click', () => openViewer(WORK_SLIDES));
+    document.getElementById('viewAllAssetBtnDesktop').addEventListener('click', () => openViewer(ASSET_SLIDES));
+    document.getElementById('viewerBack').addEventListener('click', closeViewer);
+    viewerPrev.addEventListener('click', () => { if (viewerIndex > 0) renderViewer(viewerIndex - 1, true); });
+    viewerNext.addEventListener('click', () => { if (viewerIndex < viewerSlides.length - 1) renderViewer(viewerIndex + 1, true); });
+
+    // 스크롤 위치에 따라 현재 보이는 영역의 탭을 자동으로 활성화
+    ['intro', 'glance', 'detail', 'assets'].forEach((id) => {
+      ScrollTrigger.create({
+        trigger: '#' + id,
+        start: 'top 40%',
+        end: 'bottom 40%',
+        onEnter: () => setActiveTab(id),
+        onEnterBack: () => setActiveTab(id),
+      });
+    });
+
+    // 117:5328 상단 헤더 — 아래로 스크롤 시 사라지고, 위로 스크롤 시 등장
+    ScrollTrigger.create({
+      start: 0,
+      end: 'max',
+      onUpdate: (self) => {
+        if (self.scroll() <= header.offsetHeight) {
+          gsap.to(header, { y: 0, duration: 0.3, ease: 'power2.out' });
+          return;
+        }
+        if (self.direction === 1) {
+          gsap.to(header, { y: '-100%', duration: 0.3, ease: 'power2.out' });
+        } else {
+          gsap.to(header, { y: 0, duration: 0.3, ease: 'power2.out' });
+        }
+      },
+    });
+
+    // 117:5290 플로팅 Contact 버튼 — 항상 노출되지만 117:6420 하단 Contact 섹션 도달 시 사라짐
+    const fab = document.getElementById('fab');
+    gsap.set(fab, { xPercent: -50 });
+    ScrollTrigger.create({
+      trigger: '#contactFooter',
+      start: 'top 90%',
+      onEnter: () => gsap.to(fab, { opacity: 0, y: 16, pointerEvents: 'none', duration: 0.3, ease: 'power2.out' }),
+      onLeaveBack: () => gsap.to(fab, { opacity: 1, y: 0, pointerEvents: 'auto', duration: 0.3, ease: 'power2.out' }),
+    });
+  </script>
+</body>
+</html>
