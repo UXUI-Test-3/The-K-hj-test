@@ -348,6 +348,10 @@
     position: relative;
     width: 24px;
     height: 24px;
+    cursor: pointer;
+  }
+  .s3-icon.icon-sound.muted{
+    opacity: 0.45;
   }
   .s3-icon .circle{
     position: absolute;
@@ -649,7 +653,7 @@
     height: 40px;
   }
   .dex-progress-slots img.empty{
-    filter: brightness(0.12) saturate(0);
+    filter: brightness(0);
   }
   .dex-count-row{
     display: flex;
@@ -698,7 +702,7 @@
     height: 44px;
     object-fit: contain;
   }
-  .dex-row.locked .dex-icon img{ filter: brightness(0.5) saturate(0.3); }
+  .dex-row.locked .dex-icon img{ filter: grayscale(1) brightness(0.75); }
   .dex-row .dex-info{
     display: flex;
     flex-direction: column;
@@ -790,6 +794,9 @@
     cursor: pointer;
     filter: grayscale(1) brightness(0.6);
     pointer-events: none;
+    background: transparent;
+    appearance: none;
+    -webkit-appearance: none;
   }
   .dex-claim.active{
     filter: none;
@@ -797,10 +804,11 @@
   }
   .dex-claim img.bg{
     position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: fill;
+    left: -3.5%;
+    top: -42.54%;
+    width: 107.01%;
+    height: 187.78%;
+    max-width: none;
   }
   .dex-claim img.icon{
     position: relative;
@@ -829,22 +837,86 @@
 
   .s3-character{
     position: absolute;
-    top: 534px;
+    top: 544px;
     width: 80px;
-    height: 80px;
+    height: 70px;
     cursor: grab;
+    overflow: hidden;
+    transition: transform 0.15s cubic-bezier(.34,1.8,.64,1);
   }
   .s3-character img{
+    position: absolute;
+    left: 0;
+    top: -14.29%;
     width: 100%;
-    height: 100%;
+    height: 114.29%;
+    max-width: none;
     pointer-events: none;
+  }
+  .s3-character.hit{
+    transform: scaleX(1.18) scaleY(0.85);
   }
 
   .s3-ball{
     position: absolute;
-    width: 16px;
-    height: 16px;
+    width: 24px;
+    height: 24px;
+    overflow: hidden;
     pointer-events: none;
+    z-index: 5;
+  }
+  .s3-ball img{
+    position: absolute;
+    left: -20.83%;
+    top: -20.83%;
+    width: 141.67%;
+    height: 141.67%;
+    max-width: none;
+  }
+
+  .ball-trail{
+    position: absolute;
+    width: 54px;
+    height: 54px;
+    pointer-events: none;
+    opacity: 0;
+    z-index: 4;
+    transform-origin: 32.1% 33.1%;
+  }
+  .ball-trail img{
+    width: 100%;
+    height: 100%;
+  }
+
+  .brick-particle{
+    position: absolute;
+    width: 6px;
+    height: 6px;
+    border-radius: 2px;
+    pointer-events: none;
+    z-index: 6;
+  }
+
+  .hit-ring{
+    position: absolute;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    border: 2px solid #fff6c2;
+    pointer-events: none;
+    z-index: 5;
+    transform: translate(-50%, -50%);
+  }
+
+  .trail-ghost{
+    position: absolute;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: radial-gradient(circle, #fff6c2 0%, #ffd23f 35%, #ff5fa2 70%, rgba(255,95,162,0) 100%);
+    pointer-events: none;
+    z-index: 3;
+    transform: translate(-50%, -50%);
   }
 
   .s3-board{
@@ -891,6 +963,91 @@
   .s3-gameover .go-sub{
     font-size: 12px;
     color: #cfd4ff;
+  }
+
+  /* ---------- 스테이지(게임) 완료 팝업 ---------- */
+  .gc-panel{
+    width: 311px;
+    background: #1f1f23;
+    border: 1px solid #433f62;
+    border-radius: 12px;
+    padding: 18px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 14px;
+  }
+  .gc-title-row{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .gc-title{
+    font-size: 24px;
+    color: #2ed1fb;
+    margin-bottom: -9px;
+    position: relative;
+    z-index: 1;
+    white-space: nowrap;
+  }
+  .gc-trophy{ width: 160px; height: 150px; object-fit: contain; }
+  .gc-stats{
+    display: flex;
+    gap: 8px;
+    width: 100%;
+  }
+  .gc-stat-box{
+    flex: 1;
+    background: #11111b;
+    border-radius: 10px;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+  }
+  .gc-stat-box span{ font-size: 12px; color: #fff; }
+  .gc-stat-box b{ font-size: 30px; color: #2ed1fb; font-weight: normal; }
+  .gc-footer{
+    display: flex;
+    gap: 8px;
+    align-items: stretch;
+    width: 100%;
+  }
+  .gc-again-btn{
+    position: relative;
+    flex: 1;
+    height: 42px;
+    border: none;
+    border-radius: 10px;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 2px;
+    cursor: pointer;
+    background: transparent;
+    appearance: none;
+    -webkit-appearance: none;
+  }
+  .gc-again-btn img.bg{
+    position: absolute;
+    left: -2.44%;
+    top: -51.68%;
+    width: 104.89%;
+    height: 196.65%;
+    max-width: none;
+  }
+  .gc-again-btn img.icon{
+    position: relative;
+    width: 22px;
+    height: 22px;
+  }
+  .gc-again-btn span{
+    position: relative;
+    color: #1a3481;
+    font-size: 13px;
+    font-family: 'NeoDunggeunmo Pro', sans-serif;
   }
 
   .hp-float{
@@ -1030,6 +1187,280 @@
     max-width: none;
   }
 
+  /* ===================== 경품 응모 플로우 (라이트 테마) ===================== */
+  .claim-screen{
+    background: #fff;
+    color: #111;
+    font-family: 'Paperlogy', sans-serif;
+    display: flex;
+    flex-direction: column;
+  }
+  .claim-topbar{
+    flex-shrink: 0;
+    padding: 34px 20px 15px;
+  }
+  .claim-back{
+    position: relative;
+    width: 24px;
+    height: 24px;
+    cursor: pointer;
+  }
+  .claim-back img{
+    position: absolute;
+    top: 8.33%;
+    right: 27.08%;
+    bottom: 12.5%;
+    left: 29.17%;
+    width: 43.75%;
+    height: 79.17%;
+  }
+  .claim-body{
+    flex: 1;
+    overflow-y: auto;
+    padding: 0 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .claim-title h2{
+    font-weight: 700;
+    font-size: 26px;
+    letter-spacing: -0.52px;
+    line-height: 1.3;
+    margin: 0 0 12px;
+    text-transform: uppercase;
+    padding: 0 8px;
+  }
+  .claim-sub{
+    font-size: 16px;
+    opacity: 0.6;
+    line-height: 1.3;
+    margin: 0;
+    padding: 0 8px;
+  }
+  .claim-illust{
+    width: 100%;
+    max-width: 343px;
+    height: 200px;
+    margin: 8px auto 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .claim-illust img{ width: 100%; }
+  .claim-terms{
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    margin-top: 12px;
+  }
+  .claim-term-row{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 8px;
+    cursor: pointer;
+    min-height: 24px;
+    gap: 12px;
+  }
+  .claim-term-label{
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 16px;
+    font-weight: 500;
+    opacity: 0.9;
+    line-height: 1.4;
+  }
+  .claim-term-label img{ width: 24px; height: 24px; flex-shrink: 0; }
+  .claim-term-row .chev{ width: 24px; height: 24px; flex-shrink: 0; transition: transform 0.2s; }
+  .claim-term-body{
+    display: none;
+    background: #f5f8fb;
+    border-radius: 18px;
+    padding: 18px;
+    font-size: 14px;
+    opacity: 0.7;
+    line-height: 1.5;
+    margin-top: 8px;
+  }
+  .claim-term.open .claim-term-body{ display: block; }
+  .claim-term.open .chev{ transform: rotate(180deg); }
+
+  .claim-bottom{
+    flex-shrink: 0;
+    padding: 10px 16px 18px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    position: relative;
+  }
+  .claim-gradient{
+    position: absolute;
+    left: 0; right: 0;
+    bottom: 100%;
+    height: 40px;
+    background: linear-gradient(to bottom, rgba(255,255,255,0), #fff);
+    pointer-events: none;
+  }
+  .claim-btn-primary{
+    width: 100%;
+    background: #2b4095;
+    color: #fff;
+    border: none;
+    border-radius: 18px;
+    padding: 18px;
+    font-size: 18px;
+    font-weight: 500;
+    font-family: 'Paperlogy', sans-serif;
+    cursor: pointer;
+    text-transform: uppercase;
+  }
+  .claim-btn-outline{
+    width: 100%;
+    background: #fff;
+    color: #2b4095;
+    border: 1px solid #2b4095;
+    border-radius: 18px;
+    padding: 18px;
+    font-size: 18px;
+    font-weight: 500;
+    font-family: 'Paperlogy', sans-serif;
+    cursor: pointer;
+    text-transform: uppercase;
+  }
+
+  .claim-table{
+    border: 1px solid #e1e4e9;
+    border-radius: 18px;
+    padding: 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    margin: 28px 8px 0;
+    font-size: 16px;
+    font-weight: 500;
+  }
+  .claim-table-row{ display: flex; justify-content: space-between; }
+  .claim-table-row .k{ opacity: 0.6; }
+  .claim-table-row .v{ text-align: right; }
+
+  .claim-bubble{
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .claim-bubble-box{
+    background: #3368ff;
+    color: #fff;
+    font-size: 12px;
+    letter-spacing: -0.36px;
+    text-align: center;
+    padding: 7px 19px;
+    border-radius: 24px;
+    margin-bottom: -7px;
+    white-space: nowrap;
+  }
+  .claim-bubble-tail{
+    width: 16px;
+    height: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .claim-bubble-tail img{
+    width: 12.4px;
+    height: 11px;
+    transform: rotate(180deg);
+  }
+
+  .claim-result{
+    align-items: center;
+  }
+  .claim-result .claim-body{
+    align-items: center;
+    padding-top: 60px;
+    overflow: visible;
+  }
+  .claim-result-title{
+    text-align: center;
+    padding: 0 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .claim-result-title h2{
+    font-weight: 700;
+    font-size: 30px;
+    letter-spacing: 0.6px;
+    margin: 0;
+    text-transform: uppercase;
+  }
+  .claim-result-sub{ font-size: 16px; opacity: 0.6; line-height: 1.5; margin: 0; }
+  .claim-result-note{ font-size: 14px; color: #377dff; line-height: 1.5; margin: 0; }
+  .claim-duck{ width: 240px; height: 240px; margin-top: 12px; }
+  .claim-duck img{ width: 100%; height: 100%; object-fit: cover; }
+
+  .claim-game-card{
+    position: relative;
+    width: 100%;
+    border-radius: 18px;
+    overflow: hidden;
+    padding: 16px 14px;
+    cursor: pointer;
+    background: #000019;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+  }
+  .claim-game-bg{
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 150%;
+    opacity: 0.55;
+    pointer-events: none;
+  }
+  .claim-game-logo{
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    align-self: flex-start;
+  }
+  .claim-game-logo .l1{ width: 66px; height: 10px; overflow: hidden; position: relative; }
+  .claim-game-logo .l1 img{ position: absolute; left: -184.96%; top: -105.88%; width: 315.04%; height: 1411.76%; max-width: none; }
+  .claim-game-logo .l2{ display: flex; gap: 1px; }
+  .claim-game-logo .l2 .a{ width: 55px; height: 18px; overflow: hidden; position: relative; }
+  .claim-game-logo .l2 .a img{ position: absolute; left: -21.13%; top: -62.86%; width: 140.02%; height: 287.14%; max-width: none; }
+  .claim-game-logo .l2 .b{ width: 65px; height: 18px; overflow: hidden; position: relative; }
+  .claim-game-logo .l2 .b img{ position: absolute; left: -3.91%; top: -155.5%; width: 106.99%; height: 260.76%; max-width: none; }
+  .claim-game-btn{
+    position: relative;
+    width: 100%;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    border-radius: 8px;
+  }
+  .claim-game-btn img{
+    position: absolute;
+    left: -3.64%; top: -29.85%; width: 107.28%; height: 161.19%;
+    max-width: none;
+  }
+  .claim-game-btn span{
+    position: relative;
+    font-family: 'NeoDunggeunmo Pro', sans-serif;
+    font-size: 16px;
+    color: #00154c;
+  }
+
   .reset-btn{
     font-family: -apple-system, BlinkMacSystemFont, sans-serif;
     font-size: 12px;
@@ -1132,7 +1563,7 @@
           </div>
         </div>
         <div class="s3-icons">
-          <div class="s3-icon icon-sound">
+          <div class="s3-icon icon-sound" id="sound-toggle-btn">
             <div class="circle"><img src="assets/brick-game/s3-icon-circle-bg1.png" alt=""></div>
             <div class="glyph"><img src="assets/brick-game/s3-icon-glyph-sprite.png" alt=""></div>
           </div>
@@ -1169,6 +1600,7 @@
         <div class="s3-character" id="paddle">
           <img src="assets/brick-game/s3-character.png" alt="">
         </div>
+        <div class="ball-trail" id="ball-trail"><img src="assets/brick-game/ball-trail.png" alt=""></div>
         <img class="s3-ball" id="ball" src="assets/brick-game/s3-mallet-glow.png" alt="">
 
         <div class="hp-float" id="hp-float">
@@ -1177,9 +1609,59 @@
         </div>
 
         <div class="s3-gameover" id="gameover">
-          <div class="go-title">GAME OVER</div>
-          <div class="go-score"><span id="go-score-value">0</span> BRICKS BROKEN</div>
-          <div class="go-sub">탭하여 다시 시작</div>
+          <div class="gc-panel">
+            <div class="gc-title-row">
+              <div class="gc-title" style="color:#2ed1fb;">GAME OVER</div>
+              <img class="gc-trophy" src="assets/brick-game/crying-chicken.png" alt="" style="width:150px;height:142px;">
+            </div>
+            <div class="gc-stats">
+              <div class="gc-stat-box"><span>도달 스테이지</span><b id="go-stage">1</b></div>
+              <div class="gc-stat-box"><span>획득 아이템</span><b id="go-items">0</b></div>
+            </div>
+            <div class="dex-progress" style="width:100%;">
+              <p id="go-progress-text"></p>
+              <div class="dex-progress-slots" id="go-progress-slots"></div>
+            </div>
+            <div class="gc-footer">
+              <button class="dex-continue" id="go-dex-btn">
+                <img src="assets/brick-game/s3-item-book-icon.png" alt="" style="width:16px;height:16px;">
+                아이템 도감
+              </button>
+              <button class="gc-again-btn" id="go-retry-btn">
+                <img class="bg" src="assets/brick-game/btn-blue-banner-bg.png" alt="">
+                <img class="icon" src="assets/brick-game/icon-joystick.png" alt="">
+                <span>다시 도전하기</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="s3-gameover" id="gamecomplete" style="z-index:35;">
+          <div class="gc-panel">
+            <div class="gc-title-row">
+              <div class="gc-title">All CLEAR!</div>
+              <img class="gc-trophy" src="assets/brick-game/trophy-chicken.png" alt="">
+            </div>
+            <div class="gc-stats">
+              <div class="gc-stat-box"><span>도달 스테이지</span><b id="gc-stage">3</b></div>
+              <div class="gc-stat-box"><span>획득 아이템</span><b id="gc-items">0</b></div>
+            </div>
+            <div class="dex-progress" style="width:100%;">
+              <p id="gc-progress-text"></p>
+              <div class="dex-progress-slots" id="gc-progress-slots"></div>
+            </div>
+            <div class="gc-footer">
+              <button class="dex-continue" id="gc-dex-btn">
+                <img src="assets/brick-game/s3-item-book-icon.png" alt="" style="width:16px;height:16px;">
+                아이템 도감
+              </button>
+              <button class="gc-again-btn" id="gc-again-btn">
+                <img class="bg" src="assets/brick-game/btn-blue-banner-bg.png" alt="">
+                <img class="icon" src="assets/brick-game/icon-joystick.png" alt="">
+                <span>한 판 더하기</span>
+              </button>
+            </div>
+          </div>
         </div>
 
         <div class="stage-announce" id="stage-announce">
@@ -1241,6 +1723,134 @@
       </div>
     </div>
 
+    <!-- 본인인증 동의 -->
+    <div id="screen-claim-consent" class="screen claim-screen">
+      <div class="claim-topbar">
+        <div class="claim-back" id="claim-consent-back"><img src="assets/brick-game/icon-back-arrow.svg" alt=""></div>
+      </div>
+      <div class="claim-body">
+        <div class="claim-title">
+          <h2>본인인증을 하려면<br>동의가 필요해요</h2>
+          <p class="claim-sub">본인인증을 마치면 이벤트에 참여할 수 있어요.</p>
+        </div>
+        <div class="claim-illust"><img src="assets/brick-game/claim-idcard-illust.png" alt=""></div>
+        <div class="claim-terms">
+          <div class="claim-term open" data-term>
+            <div class="claim-term-row">
+              <div class="claim-term-label"><img src="assets/brick-game/icon-check-active.svg" alt=""><span>(필수) 약관내용 약관내용 약관내용</span></div>
+              <img class="chev" src="assets/brick-game/icon-chevron-up.svg" alt="">
+            </div>
+            <div class="claim-term-body">약관내용 약관내용 약관내용 약관내용 약관내용 약관내용 약관내용 약관내용 약관내용 약관내용 약관내용 약관내용 약관내용 약관내용 약관내용 약관내용 약관내용 약관내용</div>
+          </div>
+          <div class="claim-term" data-term>
+            <div class="claim-term-row">
+              <div class="claim-term-label"><img src="assets/brick-game/icon-check.svg" alt=""><span>(필수) 약관내용 약관내용 약관내용 약관 약관내용 약관내용</span></div>
+              <img class="chev" src="assets/brick-game/icon-chevron-down.svg" alt="">
+            </div>
+            <div class="claim-term-body">약관내용 약관내용 약관내용 약관내용 약관내용 약관내용 약관내용 약관내용 약관내용 약관내용</div>
+          </div>
+          <div class="claim-term" data-term>
+            <div class="claim-term-row">
+              <div class="claim-term-label"><img src="assets/brick-game/icon-check.svg" alt=""><span>(선택) 약관내용 약관내용 약관내용</span></div>
+              <img class="chev" src="assets/brick-game/icon-chevron-down.svg" alt="">
+            </div>
+            <div class="claim-term-body">약관내용 약관내용 약관내용 약관내용 약관내용 약관내용 약관내용 약관내용 약관내용 약관내용</div>
+          </div>
+        </div>
+      </div>
+      <div class="claim-bottom">
+        <div class="claim-gradient"></div>
+        <button class="claim-btn-primary" id="claim-consent-btn">동의하기</button>
+      </div>
+    </div>
+
+    <!-- 본인인증 완료 -->
+    <div id="screen-claim-verify" class="screen claim-screen">
+      <div class="claim-topbar">
+        <div class="claim-back" id="claim-verify-back"><img src="assets/brick-game/icon-back-arrow.svg" alt=""></div>
+      </div>
+      <div class="claim-body">
+        <div class="claim-title">
+          <h2>본인인증을 완료했어요.<br>이벤트 참여하기를 눌러<br>최종적으로 완료해주세요.</h2>
+        </div>
+        <div class="claim-table">
+          <div class="claim-table-row"><span class="k">이름</span><span class="v">덕혜이</span></div>
+          <div class="claim-table-row"><span class="k">전화번호</span><span class="v">010-0000-0000</span></div>
+          <div class="claim-table-row"><span class="k">생년월일</span><span class="v">1990.01.01</span></div>
+        </div>
+      </div>
+      <div class="claim-bottom">
+        <div class="claim-gradient"></div>
+        <div class="claim-bubble">
+          <div class="claim-bubble-box">'이벤트 참여하기'를 누르면 진짜 끝이에요!</div>
+          <div class="claim-bubble-tail"><img src="assets/brick-game/s2-bubble-tail.svg" alt=""></div>
+        </div>
+        <button class="claim-btn-primary" id="claim-verify-btn">이벤트 참여하기</button>
+      </div>
+    </div>
+
+    <!-- 경품 최초 응모 -->
+    <div id="screen-claim-done" class="screen claim-screen claim-result">
+      <div class="claim-body">
+        <div class="claim-result-title">
+          <h2>경품 응모가<br>완료되었습니다.</h2>
+          <p class="claim-result-sub">당첨된 경품 안내사항은<br>개별적으로 연락 드릴 예정입니다.</p>
+          <p class="claim-result-note">획득한 저축 상품 아이템과 복지 혜택 아이템 내용이<br>더 궁금하다면? 아래 버튼으로 확인해보세요!</p>
+        </div>
+        <div class="claim-duck"><img src="assets/brick-game/duck-complete-sign.png" alt=""></div>
+      </div>
+      <div class="claim-bottom">
+        <div class="claim-gradient"></div>
+        <button class="claim-btn-primary">장기저축급여 알아보기</button>
+        <button class="claim-btn-outline">공제회 회원 전용 혜택 모아보기</button>
+        <div class="claim-game-card" id="claim-done-backtogame">
+          <img class="claim-game-bg" src="assets/brick-game/claim-card-glow.png" alt="">
+          <div class="claim-game-logo">
+            <div class="l1"><img src="assets/brick-game/s3-logo-sprite-a.png" alt=""></div>
+            <div class="l2">
+              <div class="a"><img src="assets/brick-game/s3-logo-sprite-a.png" alt=""></div>
+              <div class="b"><img src="assets/brick-game/s3-logo-sprite-b.png" alt=""></div>
+            </div>
+          </div>
+          <div class="claim-game-btn">
+            <img src="assets/brick-game/btn-start-bg.png" alt="">
+            <span>게임으로 돌아가기</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 경품 중복 응모 -->
+    <div id="screen-claim-duplicate" class="screen claim-screen claim-result">
+      <div class="claim-body">
+        <div class="claim-result-title">
+          <h2>이미 경품 응모가<br>완료되었습니다.</h2>
+          <p class="claim-result-sub">당첨된 경품 안내사항은<br>개별적으로 연락 드릴 예정입니다.</p>
+          <p class="claim-result-note">획득한 저축 상품 아이템과 복지 혜택 아이템 내용이<br>더 궁금하다면? 아래 버튼으로 확인해보세요!</p>
+        </div>
+        <div class="claim-duck"><img src="assets/brick-game/duck-complete-sign.png" alt=""></div>
+      </div>
+      <div class="claim-bottom">
+        <div class="claim-gradient"></div>
+        <button class="claim-btn-primary">장기저축급여 알아보기</button>
+        <button class="claim-btn-outline">공제회 회원 전용 혜택 모아보기</button>
+        <div class="claim-game-card" id="claim-duplicate-backtogame">
+          <img class="claim-game-bg" src="assets/brick-game/claim-card-glow.png" alt="">
+          <div class="claim-game-logo">
+            <div class="l1"><img src="assets/brick-game/s3-logo-sprite-a.png" alt=""></div>
+            <div class="l2">
+              <div class="a"><img src="assets/brick-game/s3-logo-sprite-a.png" alt=""></div>
+              <div class="b"><img src="assets/brick-game/s3-logo-sprite-b.png" alt=""></div>
+            </div>
+          </div>
+          <div class="claim-game-btn">
+            <img src="assets/brick-game/btn-start-bg.png" alt="">
+            <span>게임으로 돌아가기</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
   </div>
 
   <button class="reset-btn" id="reset-btn">처음으로 다시보기</button>
@@ -1250,18 +1860,35 @@
     const screen1 = document.getElementById('screen-1');
     const screen2 = document.getElementById('screen-2');
     const screen3 = document.getElementById('screen-3');
+    const claimConsentEl = document.getElementById('screen-claim-consent');
+    const claimVerifyEl = document.getElementById('screen-claim-verify');
+    const claimDoneEl = document.getElementById('screen-claim-done');
+    const claimDuplicateEl = document.getElementById('screen-claim-duplicate');
     const btnStart = document.getElementById('btn-start');
     const resetBtn = document.getElementById('reset-btn');
     const board = document.getElementById('game-board');
     const startText = document.getElementById('start-text');
     const ballEl = document.getElementById('ball');
+    const ballTrailEl = document.getElementById('ball-trail');
     const paddleEl = document.getElementById('paddle');
     const bricksLayer = document.getElementById('bricks-layer');
     const bricksCountEl = document.getElementById('bricks-count');
     const hpCurEl = document.getElementById('hp-cur');
     const hpBarImg = document.getElementById('hp-bar-img');
     const gameoverEl = document.getElementById('gameover');
-    const goScoreEl = document.getElementById('go-score-value');
+    const goStageEl = document.getElementById('go-stage');
+    const goItemsEl = document.getElementById('go-items');
+    const goProgressText = document.getElementById('go-progress-text');
+    const goProgressSlots = document.getElementById('go-progress-slots');
+    const goDexBtn = document.getElementById('go-dex-btn');
+    const goRetryBtn = document.getElementById('go-retry-btn');
+    const gameCompleteEl = document.getElementById('gamecomplete');
+    const gcStageEl = document.getElementById('gc-stage');
+    const gcItemsEl = document.getElementById('gc-items');
+    const gcProgressText = document.getElementById('gc-progress-text');
+    const gcProgressSlots = document.getElementById('gc-progress-slots');
+    const gcDexBtn = document.getElementById('gc-dex-btn');
+    const gcAgainBtn = document.getElementById('gc-again-btn');
     const stageValueEl = document.getElementById('stage-value');
     const stageAnnounceEl = document.getElementById('stage-announce');
     const saStageTextEl = document.getElementById('sa-stage-text');
@@ -1287,6 +1914,113 @@
     const dexCollectedText = document.getElementById('dex-collected-text');
     const dexList = document.getElementById('dex-list');
     const dexScrollbarThumb = document.getElementById('dex-scrollbar-thumb');
+    const soundToggleBtn = document.getElementById('sound-toggle-btn');
+
+    class RetroAudioEngine {
+      constructor() {
+        this.ctx = null;
+        this.isMuted = false;
+        this.isBgmPlaying = false;
+        this.bgmTimer = null;
+        this.currentNoteIndex = 0;
+        this.volume = 0.25;
+      }
+
+      init() {
+        if (!this.ctx) {
+          const AudioCtx = window.AudioContext || window.webkitAudioContext;
+          if (AudioCtx) this.ctx = new AudioCtx();
+        }
+        if (this.ctx && this.ctx.state === 'suspended') this.ctx.resume();
+      }
+
+      playTone(freq, type = 'square', duration = 0.08, gainVal = 0.1, pitchBend = 0) {
+        if (this.isMuted || !this.ctx) return;
+        try {
+          const osc = this.ctx.createOscillator();
+          const gain = this.ctx.createGain();
+          osc.type = type;
+          osc.frequency.setValueAtTime(freq, this.ctx.currentTime);
+          if (pitchBend !== 0) {
+            osc.frequency.exponentialRampToValueAtTime(Math.max(10, freq + pitchBend), this.ctx.currentTime + duration);
+          }
+          gain.gain.setValueAtTime(gainVal * this.volume, this.ctx.currentTime);
+          gain.gain.exponentialRampToValueAtTime(0.0001, this.ctx.currentTime + duration);
+          osc.connect(gain);
+          gain.connect(this.ctx.destination);
+          osc.start();
+          osc.stop(this.ctx.currentTime + duration);
+        } catch (e) {}
+      }
+
+      playPaddleHit() { this.init(); this.playTone(320, 'triangle', 0.06, 0.12, 50); }
+      playBrickHit() { this.init(); this.playTone(580, 'square', 0.05, 0.09, 100); }
+      playCatchItem() {
+        this.init();
+        [523.25, 659.25, 783.99, 1046.5].forEach((f, i) => {
+          setTimeout(() => this.playTone(f, 'triangle', 0.12, 0.15, 30), i * 50);
+        });
+      }
+      playBadItem() {
+        this.init();
+        this.playTone(300, 'sawtooth', 0.12, 0.15, -120);
+        setTimeout(() => this.playTone(220, 'sawtooth', 0.15, 0.15, -80), 90);
+      }
+      playLoseLife() {
+        this.init();
+        [350, 300, 240, 180].forEach((f, i) => {
+          setTimeout(() => this.playTone(f, 'sawtooth', 0.15, 0.14, -50), i * 90);
+        });
+      }
+      playVictory() {
+        this.init();
+        [523.25, 659.25, 783.99, 1046.5, 1318.5].forEach((f, i) => {
+          setTimeout(() => this.playTone(f, 'square', 0.2, 0.18), i * 80);
+        });
+      }
+
+      toggleBgm() {
+        if (this.isBgmPlaying) {
+          this.stopBgm();
+          return false;
+        } else {
+          this.startBgm();
+          return true;
+        }
+      }
+
+      startBgm() {
+        if (this.isBgmPlaying || this.isMuted) return;
+        this.init();
+        this.isBgmPlaying = true;
+        this.currentNoteIndex = 0;
+
+        const notes = [
+          523.25, 659.25, 783.99, 659.25, 587.33, 698.46, 880.00, 698.46,
+          659.25, 783.99, 1046.5, 783.99, 587.33, 493.88, 587.33, 659.25
+        ];
+
+        const playNext = () => {
+          if (!this.isBgmPlaying || this.isMuted) return;
+          const f = notes[this.currentNoteIndex];
+          this.playTone(f, 'square', 0.12, 0.04);
+          this.playTone(f / 2, 'triangle', 0.1, 0.03);
+          this.currentNoteIndex = (this.currentNoteIndex + 1) % notes.length;
+          this.bgmTimer = setTimeout(playNext, 160);
+        };
+        playNext();
+      }
+
+      stopBgm() {
+        this.isBgmPlaying = false;
+        if (this.bgmTimer) {
+          clearTimeout(this.bgmTimer);
+          this.bgmTimer = null;
+        }
+      }
+    }
+
+    const audio = new RetroAudioEngine();
 
     function resetAll(){
       gsap.set(screen2, { opacity: 0, pointerEvents: 'none' });
@@ -1295,11 +2029,26 @@
       screen1.classList.add('is-active');
       screen2.classList.remove('is-active');
       screen3.classList.remove('is-active');
+      [claimConsentEl, claimVerifyEl, claimDoneEl, claimDuplicateEl].forEach(el => {
+        gsap.set(el, { opacity: 0, pointerEvents: 'none' });
+        el.classList.remove('is-active');
+      });
       initGame();
     }
 
+    soundToggleBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      audio.init();
+      audio.isMuted = !audio.isMuted;
+      soundToggleBtn.classList.toggle('muted', audio.isMuted);
+      if (audio.isMuted) audio.stopBgm();
+      else audio.startBgm();
+    });
+
     // 1 -> 2 : 메인 화면 클릭
     screen1.addEventListener('click', () => {
+      audio.init();
+      audio.startBgm();
       screen2.classList.add('is-active');
       gsap.timeline()
         .to(screen1, { opacity: 0, duration: 0.3, ease: 'power2.out', onComplete: () => {
@@ -1329,10 +2078,13 @@
     const GRID_LEFT = 20, GRID_TOP = 20;
     const BOARD_W = 347, BOARD_H = 614;
     const WALL_PAD = 6;
-    const PADDLE_W = 80, PADDLE_H = 80, PADDLE_Y = 534;
-    const BALL_SIZE = 16, BALL_HALF = 8;
+    const PADDLE_W = 80, PADDLE_H = 70, PADDLE_Y = 544;
+    const BALL_SIZE = 24, BALL_HALF = 12;
+    const TRAIL_SIZE = 54, TRAIL_ORB_FX = 0.321, TRAIL_ORB_FY = 0.331, TRAIL_DEFAULT_ANGLE = -135;
+    const BRICK_COLOR_HEX = { row1: '#3ec8f0', row2: '#ffb020', row3: '#ffb020', row5: '#36d17a', row4: '#ef4b4b' };
     const BASE_BALL_SPEED = 4.3;
     const STAGE_SPEED_MULT = 1.2; // 스테이지마다 공 속도 +20%
+    const MAX_STAGE = 3; // 3스테이지 완료 시 All Clear 화면
     const HP_MAX = 100;
     const HP_GIFT_GAIN = 30;
     const HP_BOMB_LOSS = 25;
@@ -1390,6 +2142,7 @@
     let dexOpen = false;
     let fallingItems = [];   // { type:'gift'|'bomb', x, y, el }
     let gameOver = false;
+    let gameComplete = false;
     let stage = 1;
     let ballSpeed = BASE_BALL_SPEED;
 
@@ -1441,14 +2194,82 @@
       const brickEl = row.el.children[col];
       brickEl.classList.add('dead');
       updateLiveBrickCount();
+      audio.playBrickHit();
 
       const brickX = GRID_LEFT + col * (BRICK_W + GAP);
       const brickY = GRID_TOP + row.slot * ROW_PITCH;
+      spawnBrickBurst(brickX + BRICK_W / 2, brickY + BRICK_H / 2, row.color);
       spawnFallingItem(brickX + BRICK_W / 2, brickY + BRICK_H / 2);
 
       const allCleared = rows.every(r => r.bricks.every(alive => !alive));
       if (allCleared){
-        advanceStage();
+        if (stage >= MAX_STAGE){
+          triggerGameComplete();
+        } else {
+          advanceStage();
+        }
+      }
+    }
+
+    function renderGiftProgressCard(textEl, slotsEl, doneSuffix){
+      const need = 3;
+      const done = giftsCollected >= need;
+      slotsEl.innerHTML = '';
+      for (let i = 0; i < need; i++){
+        const img = document.createElement('img');
+        img.src = 'assets/brick-game/item-gift.png';
+        if (i >= Math.min(giftsCollected, need)) img.className = 'empty';
+        slotsEl.appendChild(img);
+      }
+      if (done){
+        textEl.innerHTML = '<span class="hl">아이템 ' + giftsCollected + '개</span> 수집 완료!<br>' + doneSuffix;
+      } else {
+        const remain = need - giftsCollected;
+        textEl.innerHTML = '<span class="hl">아이템 3개</span>를 모으면 본인인증 후 <span class="hl">경품 응모!</span><br>앞으로 <span class="hl">' + remain + '개</span> 남았어요.';
+      }
+    }
+
+    function updateGameCompleteProgress(){
+      renderGiftProgressCard(gcProgressText, gcProgressSlots, '하단의 아이템 도감 버튼을 눌러 본인인증 후 <span class="hl">경품</span> 응모가 가능해요.');
+    }
+
+    function triggerGameComplete(){
+      gameComplete = true;
+      ball.state = 'idle';
+      gcStageEl.textContent = stage;
+      gcItemsEl.textContent = giftsCollected;
+      updateGameCompleteProgress();
+      gsap.to(startText, { opacity: 0, duration: 0.15 });
+      audio.playVictory();
+      gameCompleteEl.classList.add('show');
+    }
+
+    function hideGameComplete(){
+      gameComplete = false;
+      gameCompleteEl.classList.remove('show');
+    }
+
+    function spawnBrickBurst(cx, cy, colorType){
+      const color = BRICK_COLOR_HEX[colorType] || '#ffffff';
+      const count = 7;
+      for (let i = 0; i < count; i++){
+        const p = document.createElement('div');
+        p.className = 'brick-particle';
+        p.style.left = (cx - 3) + 'px';
+        p.style.top = (cy - 3) + 'px';
+        p.style.background = color;
+        board.appendChild(p);
+        const angle = (Math.PI * 2 * i) / count + Math.random() * 0.6;
+        const dist = 18 + Math.random() * 16;
+        gsap.timeline({ onComplete: () => p.remove() })
+          .to(p, {
+            x: Math.cos(angle) * dist,
+            y: Math.sin(angle) * dist,
+            rotation: Math.random() * 180 - 90,
+            duration: 0.4,
+            ease: 'power2.out'
+          }, 0)
+          .to(p, { opacity: 0, duration: 0.2 }, 0.2);
       }
     }
 
@@ -1470,6 +2291,7 @@
     function collectItem(item){
       item.el.remove();
       if (item.type === 'gift'){
+        audio.playCatchItem();
         giftsCollected++;
         hp = Math.min(HP_MAX, hp + HP_GIFT_GAIN);
         updateHpUI();
@@ -1478,6 +2300,7 @@
         registerDexItem(giftIdx);
         showGiftBanner(giftIdx);
       } else {
+        audio.playBadItem();
         hp = Math.max(0, hp - HP_BOMB_LOSS);
         updateHpUI();
         showHpFloat('loss', HP_BOMB_LOSS, 'assets/brick-game/item-bomb.png');
@@ -1526,22 +2349,8 @@
     }
 
     function updateDexProgress(){
-      const need = 3;
-      const done = giftsCollected >= need;
-      dexProgressSlots.innerHTML = '';
-      for (let i = 0; i < need; i++){
-        const img = document.createElement('img');
-        img.src = 'assets/brick-game/item-gift.png';
-        if (i >= Math.min(giftsCollected, need)) img.className = 'empty';
-        dexProgressSlots.appendChild(img);
-      }
-      if (done){
-        dexProgressText.innerHTML = '<span class="hl">아이템 3개</span> 수집 완료!<br>본인인증 후 <span class="hl">경품</span> 응모가 가능해요.';
-      } else {
-        const remain = need - giftsCollected;
-        dexProgressText.innerHTML = '<span class="hl">아이템 3개</span>를 모으면 본인인증 후 <span class="hl">경품 응모!</span><br>앞으로 <span class="hl">' + remain + '개</span> 남았어요.';
-      }
-      dexClaim.classList.toggle('active', done);
+      renderGiftProgressCard(dexProgressText, dexProgressSlots, '본인인증 후 <span class="hl">경품</span> 응모가 가능해요.');
+      dexClaim.classList.toggle('active', giftsCollected >= 3);
     }
 
     function renderDexList(){
@@ -1624,10 +2433,59 @@
     }
 
     dexBtn.addEventListener('click', (e) => { e.stopPropagation(); openDex(); });
+    gcDexBtn.addEventListener('click', (e) => { e.stopPropagation(); openDex(); });
+    gcAgainBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      hideGameComplete();
+      restartGame(stage);
+    });
+    goDexBtn.addEventListener('click', (e) => { e.stopPropagation(); openDex(); });
+    goRetryBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      restartGame(stage);
+    });
     dexClose.addEventListener('click', (e) => { e.stopPropagation(); closeDex(); });
     dexContinue.addEventListener('click', (e) => { e.stopPropagation(); closeDex(); });
-    dexClaim.addEventListener('click', (e) => { e.stopPropagation(); });
+    dexClaim.addEventListener('click', (e) => {
+      e.stopPropagation();
+      if (!dexClaim.classList.contains('active')) return;
+      closeDex();
+      switchScreen(screen3, claimConsentEl);
+    });
     dexList.addEventListener('scroll', updateDexScrollbar);
+
+    /* ---------- 경품 응모 플로우 (본인인증 → 참여 → 완료) ---------- */
+
+    const PRIZE_CLAIMED_KEY = 'tk_brickgame_prize_claimed';
+
+    function switchScreen(fromEl, toEl){
+      gsap.killTweensOf([fromEl, toEl]);
+      fromEl.classList.remove('is-active');
+      gsap.set(fromEl, { opacity: 0, pointerEvents: 'none' });
+      toEl.classList.add('is-active');
+      gsap.set(toEl, { opacity: 1, pointerEvents: 'auto' });
+    }
+
+    document.getElementById('claim-consent-back').addEventListener('click', () => switchScreen(claimConsentEl, screen3));
+    document.getElementById('claim-consent-btn').addEventListener('click', () => switchScreen(claimConsentEl, claimVerifyEl));
+    document.getElementById('claim-verify-back').addEventListener('click', () => switchScreen(claimVerifyEl, claimConsentEl));
+    document.getElementById('claim-verify-btn').addEventListener('click', () => {
+      const alreadyClaimed = localStorage.getItem(PRIZE_CLAIMED_KEY) === '1';
+      if (alreadyClaimed){
+        switchScreen(claimVerifyEl, claimDuplicateEl);
+      } else {
+        localStorage.setItem(PRIZE_CLAIMED_KEY, '1');
+        switchScreen(claimVerifyEl, claimDoneEl);
+      }
+    });
+    document.getElementById('claim-done-backtogame').addEventListener('click', () => resetAll());
+    document.getElementById('claim-duplicate-backtogame').addEventListener('click', () => resetAll());
+
+    document.querySelectorAll('.claim-term').forEach(term => {
+      term.querySelector('.claim-term-row').addEventListener('click', () => {
+        term.classList.toggle('open');
+      });
+    });
 
     function updateHpBarVisual(){
       const clamped = Math.max(0, Math.min(HP_MAX, Math.round(hp / 5) * 5));
@@ -1644,14 +2502,55 @@
       fallingItems = [];
     }
 
+    function spawnPaddleHitFx(cx, cy){
+      paddleEl.classList.remove('hit');
+      void paddleEl.offsetWidth;
+      paddleEl.classList.add('hit');
+      gsap.delayedCall(0.15, () => paddleEl.classList.remove('hit'));
+
+      const ring = document.createElement('div');
+      ring.className = 'hit-ring';
+      ring.style.left = cx + 'px';
+      ring.style.top = cy + 'px';
+      board.appendChild(ring);
+      gsap.fromTo(ring,
+        { scale: 0.3, opacity: 1 },
+        { scale: 1.6, opacity: 0, duration: 0.35, ease: 'power2.out', onComplete: () => ring.remove() }
+      );
+    }
+
     function layoutPaddle(){
       paddleEl.style.left = paddleX + 'px';
       paddleEl.style.top = PADDLE_Y + 'px';
     }
 
     function layoutBall(){
-      ballEl.style.left = ball.x + 'px';
-      ballEl.style.top = ball.y + 'px';
+      if (ball.state === 'launched'){
+        ballEl.style.opacity = '0';
+        const cx = ball.x + BALL_HALF;
+        const cy = ball.y + BALL_HALF;
+        const angle = Math.atan2(ball.vy, ball.vx) * 180 / Math.PI - TRAIL_DEFAULT_ANGLE;
+        ballTrailEl.style.left = (cx - TRAIL_SIZE * TRAIL_ORB_FX) + 'px';
+        ballTrailEl.style.top = (cy - TRAIL_SIZE * TRAIL_ORB_FY) + 'px';
+        gsap.set(ballTrailEl, { rotation: angle });
+      } else {
+        ballEl.style.opacity = '1';
+        ballEl.style.left = ball.x + 'px';
+        ballEl.style.top = ball.y + 'px';
+      }
+    }
+
+    let trailGhostCounter = 0;
+    function spawnTrailGhost(cx, cy){
+      const ghost = document.createElement('div');
+      ghost.className = 'trail-ghost';
+      ghost.style.left = cx + 'px';
+      ghost.style.top = cy + 'px';
+      board.appendChild(ghost);
+      gsap.fromTo(ghost,
+        { opacity: 0.55, scale: 1 },
+        { opacity: 0, scale: 0.2, duration: 0.45, ease: 'power1.out', onComplete: () => ghost.remove() }
+      );
     }
 
     function setPaddleX(x){
@@ -1669,15 +2568,23 @@
       ball.vy = 0;
       ball.x = paddleX + PADDLE_W / 2 - BALL_HALF;
       ball.y = PADDLE_Y - BALL_HALF - 4;
+      gsap.killTweensOf(ballTrailEl);
+      gsap.set(ballTrailEl, { opacity: 0, scale: 1 });
       layoutBall();
     }
 
     function launchBall(){
-      if (ball.state !== 'idle' || gameOver) return;
+      if (ball.state !== 'idle' || gameOver || gameComplete) return;
       ball.state = 'launched';
       ball.vx = 0;
       ball.vy = -ballSpeed;
+      trailGhostCounter = 0;
       gsap.to(startText, { opacity: 0, duration: 0.2, ease: 'power1.out' });
+      gsap.killTweensOf(ballTrailEl);
+      gsap.fromTo(ballTrailEl,
+        { opacity: 0, scale: 0.5 },
+        { opacity: 1, scale: 1, duration: 0.3, ease: 'power2.out' }
+      );
     }
 
     function updateHpUI(){
@@ -1692,6 +2599,7 @@
       if (hp <= 0){
         triggerGameOver();
       } else {
+        audio.playLoseLife();
         resetBallToIdle();
       }
     }
@@ -1699,8 +2607,11 @@
     function triggerGameOver(){
       gameOver = true;
       ball.state = 'idle';
-      goScoreEl.textContent = totalBroken;
+      goStageEl.textContent = stage;
+      goItemsEl.textContent = giftsCollected;
+      renderGiftProgressCard(goProgressText, goProgressSlots, '하단의 아이템 도감 버튼을 눌러 본인인증 후 <span class="hl">경품</span> 응모가 가능해요.');
       gsap.to(startText, { opacity: 0, duration: 0.15 });
+      audio.playLoseLife();
       gameoverEl.classList.add('show');
     }
 
@@ -1733,8 +2644,9 @@
       gsap.set(stageAnnounceEl, { opacity: 0 });
     }
 
-    function restartGame(){
+    function restartGame(targetStage){
       gameoverEl.classList.remove('show');
+      hideGameComplete();
       hideGiftBanner();
       hideStageAnnounce();
       closeDex();
@@ -1742,8 +2654,8 @@
       dexBadge.classList.remove('show');
       gsap.set(hpFloatEl, { opacity: 0 });
       gameOver = false;
-      stage = 1;
-      ballSpeed = BASE_BALL_SPEED;
+      stage = Math.min(MAX_STAGE, Math.max(1, targetStage || 1));
+      ballSpeed = BASE_BALL_SPEED * Math.pow(STAGE_SPEED_MULT, stage - 1);
       stageValueEl.textContent = stage;
       hp = HP_MAX;
       totalBroken = 0;
@@ -1754,9 +2666,11 @@
       setPaddleX((BOARD_W - PADDLE_W) / 2);
       resetBallToIdle();
       gsap.set(startText, { opacity: 1 });
+      if (stage > 1) showStageAnnounce();
     }
 
     function initGame(){
+      hideGameComplete();
       hideGiftBanner();
       hideStageAnnounce();
       closeDex();
@@ -1788,10 +2702,7 @@
     }
 
     board.addEventListener('pointerdown', (e) => {
-      if (gameOver){
-        restartGame();
-        return;
-      }
+      if (gameOver || gameComplete) return;
       dragging = true;
       board.setPointerCapture(e.pointerId);
       const bx = clientXToBoardX(e.clientX);
@@ -1813,7 +2724,7 @@
 
     // 데스크탑 : 클릭하지 않아도 마우스를 따라 패들 이동
     board.addEventListener('mousemove', (e) => {
-      if (gameOver) return;
+      if (gameOver || gameComplete) return;
       const bx = clientXToBoardX(e.clientX);
       setPaddleX(bx - PADDLE_W / 2);
     });
@@ -1825,15 +2736,15 @@
     }
 
     function tick(){
-      if (ball.state === 'launched' && !gameOver && !dexOpen){
+      if (ball.state === 'launched' && !gameOver && !dexOpen && !gameComplete){
         ball.x += ball.vx;
         ball.y += ball.vy;
 
         // 좌우 벽
-        if (ball.x <= WALL_PAD){ ball.x = WALL_PAD; ball.vx = Math.abs(ball.vx); }
-        if (ball.x + BALL_SIZE >= BOARD_W - WALL_PAD){ ball.x = BOARD_W - WALL_PAD - BALL_SIZE; ball.vx = -Math.abs(ball.vx); }
+        if (ball.x <= WALL_PAD){ ball.x = WALL_PAD; ball.vx = Math.abs(ball.vx); audio.playPaddleHit(); }
+        if (ball.x + BALL_SIZE >= BOARD_W - WALL_PAD){ ball.x = BOARD_W - WALL_PAD - BALL_SIZE; ball.vx = -Math.abs(ball.vx); audio.playPaddleHit(); }
         // 상단 벽
-        if (ball.y <= WALL_PAD){ ball.y = WALL_PAD; ball.vy = Math.abs(ball.vy); }
+        if (ball.y <= WALL_PAD){ ball.y = WALL_PAD; ball.vy = Math.abs(ball.vy); audio.playPaddleHit(); }
 
         // 패들 충돌 (아래로 내려올 때만)
         if (ball.vy > 0){
@@ -1847,6 +2758,8 @@
             const vy2 = ballSpeed * ballSpeed - ball.vx * ball.vx;
             ball.vy = -Math.sqrt(Math.max(0.6, vy2));
             ball.y = PADDLE_Y - BALL_SIZE;
+            spawnPaddleHitFx(ballCenterX, PADDLE_Y);
+            audio.playPaddleHit();
           }
         }
 
@@ -1876,10 +2789,15 @@
         }
 
         layoutBall();
+
+        trailGhostCounter++;
+        if (trailGhostCounter % 2 === 0){
+          spawnTrailGhost(ball.x + BALL_HALF, ball.y + BALL_HALF);
+        }
       }
 
       // 낙하 아이템 (선물 / 폭탄) 물리
-      if (!gameOver && !dexOpen && fallingItems.length){
+      if (!gameOver && !dexOpen && !gameComplete && fallingItems.length){
         for (let i = fallingItems.length - 1; i >= 0; i--){
           const item = fallingItems[i];
           item.y += ITEM_FALL_SPEED;
